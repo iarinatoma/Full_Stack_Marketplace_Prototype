@@ -7,47 +7,32 @@ formular.id = "article-form";
 formular.method = "POST";
 formular.action = "/articles";
 
-let csrfInput = document.createElement("input");
-csrfInput.type = "hidden";
-csrfInput.name = "_token";
-csrfInput.value = document.querySelector('meta[name="csrf-token"]')?.content || "";
+let token = document.querySelector('meta[name="csrf-token"]').content;
 
-let nume = document.createElement("label");
-nume.innerText = "Name:";
+formular.innerHTML = `
+    <input type="hidden" name="_token" value="${token}">
 
-let introdNume = document.createElement("input");
-introdNume.type = "text";
-introdNume.name = "name";
-introdNume.id = "name";
+    <label>Name:</label><br>
+    <input type="text" id="introdNume" name="name"><br>
 
-let pret = document.createElement("label");
-pret.innerText = "Price:";
+    <label>Price:</label><br>
+    <input type="number" id="introdPret" name="price" step="0.01"><br>
 
-let introdPret = document.createElement("input");
-introdPret.type = "number";
-introdPret.name = "price";
-introdPret.id = "price";
-introdPret.step = "0.01";
+    <label>Description:</label><br>
+    <textarea id="introdDescriere" name="description"></textarea><br>
 
-let descriere = document.createElement("label");
-descriere.innerText = "Description:";
+    <div id="eroare"></div>
+    <button type="button" id="buton">Speichern</button>
+`;
 
-let introdDescriere = document.createElement("textarea");
-introdDescriere.name = "description";
-introdDescriere.id = "description";
+container.appendChild(formular);
 
-let eroare = document.createElement("div");
-eroare.id = "error-box";
+document.getElementById("buton").addEventListener("click", function () {
+    let nume = document.getElementById("introdNume").value;
+    let pret = Number(document.getElementById("introdPret").value);
+    let eroare = document.getElementById("eroare");
 
-let buton = document.createElement("button");
-buton.type = "button";
-buton.innerText = "Speichern";
-
-buton.addEventListener("click", function () {
     eroare.innerText = "";
-
-    let nume = introdNume.value;
-    let pret = Number(introdPret.value);
 
     if (nume === "") {
         eroare.innerText = "Name darf nicht leer sein.";
@@ -61,25 +46,3 @@ buton.addEventListener("click", function () {
 
     document.getElementById("article-form").submit();
 });
-
-formular.appendChild(csrfInput);
-
-formular.appendChild(nume);
-formular.appendChild(document.createElement("br"));
-formular.appendChild(introdNume);
-formular.appendChild(document.createElement("br"));
-
-formular.appendChild(pret);
-formular.appendChild(document.createElement("br"));
-formular.appendChild(introdPret);
-formular.appendChild(document.createElement("br"));
-
-formular.appendChild(descriere);
-formular.appendChild(document.createElement("br"));
-formular.appendChild(introdDescriere);
-formular.appendChild(document.createElement("br"));
-
-formular.appendChild(eroare);
-formular.appendChild(buton);
-
-container.appendChild(formular);

@@ -11,37 +11,32 @@ for (let i = 0; i < addButtons.length; i++) {
         let name = this.dataset.name;
         let price = this.dataset.price;
 
-        addArticleToCart(id, name, price, this);
-    });
-}
+        let articleInCart = false
 
-function addArticleToCart(id, name, price, button) {
-    if (isArticleInCart(id)) {
-        return;
-    }
-
-    let article = {
-        id: id,
-        name: name,
-        price: price,
-        button: button
-    };
-
-    cart.push(article);
-
-    button.disabled = true;
-
-    showCart();
-}
-
-function isArticleInCart(id) {
-    for (let i = 0; i < cart.length; i++) {
-        if (cart[i].id === id) {
-            return true;
+        for (let i = 0; i < cart.length; i++) {
+            if (cart[i].id === id) {
+                articleInCart = true;
+            }
         }
-    }
 
-    return false;
+        if (articleInCart === true) {
+            return;
+        }
+
+        let article = {
+            id: id,
+            name: name,
+            price: price,
+            button: this
+        };
+
+        cart.push(article);
+
+        this.disabled = true;
+
+        showCart();
+
+    });
 }
 
 function showCart() {
@@ -62,7 +57,7 @@ function showCart() {
         let li = document.createElement("li");
 
         let text = document.createElement("span");
-        text.innerText = article.name + " - " + article.price + " Cent ";
+        text.innerText = article.name + " - " + article.price + "Cent";
 
         let removeButton = document.createElement("button");
         removeButton.innerText = "-";

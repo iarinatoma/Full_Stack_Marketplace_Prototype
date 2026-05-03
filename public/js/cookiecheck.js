@@ -1,32 +1,16 @@
 "use strict";
 
-function getCookie(nume) {
-    let cookies = document.cookie.split("; ");
+let cookies = document.cookie.split("; ");
+let aceptare;
 
-    for (let i = 0; i < cookies.length; i++) {
-        let parts = cookies[i].split("=");
-
-        if (parts[0] === nume) {
-            return parts[1];
-        }
+for (let i = 0; i < cookies.length; i++) {
+    let parte = cookies[i].split("=");
+    if (parte[0] === "cookieAccepted") {
+        aceptare = "yes";
     }
-
-    return null;
 }
 
-function setCookie(name, val, zile) {
-    let data = new Date();
-
-    //calculeaza cand va expira, transformand in milisecunde
-    data.setTime(data.getTime() + zile * 24 * 60 * 60 * 1000);
-
-    let expires = "expires=" + data.toUTCString();
-
-    //creaza cookie ul
-    document.cookie = name + "=" + val + "; " + expires + "; path=/";
-}
-
-function createCookieBanner() {
+if (aceptare !== "yes") {
     let banner = document.createElement("div");
     banner.id = "cookie-banner";
 
@@ -34,7 +18,7 @@ function createCookieBanner() {
     banner.style.bottom = "0";
     banner.style.left = "0";
     banner.style.width = "100%";
-    banner.style.backgroundColor = "#eeeeee";
+    banner.style.backgroundColor = "#efb9ff";
     banner.style.borderTop = "1px solid #999999";
     banner.style.padding = "15px";
     banner.style.boxSizing = "border-box";
@@ -46,18 +30,14 @@ function createCookieBanner() {
     button.innerText = "Einverstanden";
 
     button.addEventListener("click", function () {
-        setCookie("cookieAccepted", "yes", 30);
+        let data = new Date();
+        data.setTime(data.getTime() + 30 * 24 * 60 * 60 * 1000);
+        let expires = "expires=" + data.toUTCString();
+        document.cookie = "cookieAccepted; " + expires + "; path=/";
         banner.remove();
     });
 
     banner.appendChild(text);
     banner.appendChild(button);
-
     document.body.appendChild(banner);
-}
-
-let aceptare = getCookie("cookieAccepted");
-
-if (aceptare !== "yes") {
-    createCookieBanner();
 }

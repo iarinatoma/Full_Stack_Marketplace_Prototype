@@ -56,6 +56,7 @@
 
 https://www.w3schools.com/howto/howto_js_topnav_responsive.asp
 https://www.w3schools.com/js/js_htmldom.asp
+https://www.w3schools.com/js/js_cookies.asp
 https://www.w3schools.com/js/js_events.asp
 https://www.w3schools.com/css/default.asp
 https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model

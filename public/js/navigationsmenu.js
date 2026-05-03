@@ -46,6 +46,7 @@ for (let i = 0; i < meniu.length; i++) {
 
             let subLink = document.createElement("a");
             subLink.innerText = subMeniu[j];
+            //daca vrem sa adaugam link si la astea putem mai tarziu sa folosim acceasi logica de mai sus
             subLink.href = "#";
 
             subLi.appendChild(subLink);

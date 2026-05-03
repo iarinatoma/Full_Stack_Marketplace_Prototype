@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Element</title>
+</head>
+<body>
+
+<h1>Formular</h1>
+<div id="form-container"></div>
+
+<script>
+    "use strict";
+
+    let form = document.createElement("form");
+
+    let textInput = document.createElement("input");
+    textInput.type = "text";
+    textInput.name = "name";
+    textInput.placeholder = "Scrie nume";
+
+    let select = document.createElement("select");
+    select.name = "categorie";
+
+    let option1 = document.createElement("option");
+    option1.value = "jucarie";
+    option1.innerText = "Jucarie";
+
+    let option2 = document.createElement("option");
+    option2.value = "gradina";
+    option2.innerText = "Gradina";
+
+    select.appendChild(option1);
+    select.appendChild(option2);
+
+    let button = document.createElement("button");
+    button.type = "submit";
+    button.innerText = "Trimite";
+
+    form.appendChild(textInput);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(select);
+    form.appendChild(document.createElement("br"));
+    form.appendChild(button);
+
+    document.getElementById("form-container").appendChild(form);
+</script>
+
+</body>
+</html>

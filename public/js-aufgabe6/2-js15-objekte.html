@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Objekte </title>
+</head>
+<body>
+
+<script>
+    "use strict";
+
+    // 1. JSON
+    let carJson = {
+        _name: "",
+        _type: "",
+
+        get name() {
+            return this._name;
+        },
+
+        set name(value) {
+            this._name = value;
+        },
+
+        get type() {
+            return this._type;
+        },
+
+        set type(value) {
+            this._type = value;
+        },
+
+        writeToConsole() {
+            console.info("name=" + this.name + ", type=" + this.type);
+        }
+    };
+
+    carJson.name = "BMW";
+    carJson.type = "SUV";
+    carJson.writeToConsole();
+    console.log(carJson);
+
+
+    // 2. Function constructor
+    function CarFunction(name, type) {
+        this._name = name;
+        this._type = type;
+
+        this.getName = function() {
+            return this._name;
+        };
+
+        this.setName = function(value) {
+            this._name = value;
+        };
+
+        this.getType = function() {
+            return this._type;
+        };
+
+        this.setType = function(value) {
+            this._type = value;
+        };
+
+        this.writeToConsole = function() {
+            console.info("name=" + this.getName() + ", type=" + this.getType());
+        };
+    }
+
+    let carFunction = new CarFunction("Audi", "Kombi");
+    carFunction.writeToConsole();
+    console.log(carFunction);
+
+
+    // 3. Class
+    class CarClass {
+        constructor(name, type) {
+            this._name = name;
+            this._type = type;
+        }
+
+        get name() {
+            return this._name;
+        }
+
+        set name(value) {
+            this._name = value;
+        }
+
+        get type() {
+            return this._type;
+        }
+
+        set type(value) {
+            this._type = value;
+        }
+
+        writeToConsole() {
+            console.info("name=" + this.name + ", type=" + this.type);
+        }
+    }
+
+    let carClass = new CarClass("VW", "Cabrio");
+    carClass.writeToConsole();
+    console.log(carClass);
+
+</script>
+
+</body>
+</html>

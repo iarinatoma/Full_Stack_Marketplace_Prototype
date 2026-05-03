@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>funktion als parameter</title>
+</head>
+<body>
+<script>
+    "use strict"
+
+    function multiply(x, y){
+        return x * y;
+    }
+
+    function executeFunktion(fn, x,y){
+        return fn(x,y);
+    }
+
+    let z = executeFunktion(multiply, 5, 4);
+    console.log(z);
+
+</script>
+
+</body>
+</html>

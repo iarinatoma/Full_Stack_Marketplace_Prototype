@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kontrollstrukturen</title>
+</head>
+<body>
+<script>
+    "use strict"
+    let x = 5;
+    if(x < 2){
+        console.log("klein");
+    }
+    else if(x > 2 && x < 5){
+        console.log("mittel");
+    }
+    else {
+        console.log("groß");
+    }
+
+    let y = 5;
+    while (y > 0){
+        console.log(y);
+        y--;
+    }
+
+    for (let i = 0; i < 10; i++){
+        console.log(i);
+    }
+
+    let s = 4
+    do{
+        console.log(s);
+        s--;
+    }while(s > 0)
+
+    let bib = 1;
+    let text;
+    switch (bib) {
+        case 0:
+            text = "Da";
+            break;
+        case 1:
+            text = "Nu";
+            break;
+        default:
+            text = "Nu exista";
+    }
+    console.log(text);
+</script>
+
+</body>
+</html>

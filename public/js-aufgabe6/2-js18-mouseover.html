@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mouseover</title>
+</head>
+<body>
+
+<div id="area" style="width:250px; height:120px; border:1px solid black;">
+    misca aici mouse
+</div>
+
+<script>
+    "use strict";
+
+    let area = document.getElementById("area");
+
+    area.addEventListener("mouseenter", function() {
+        area.style.backgroundColor = "green";
+    });
+
+    area.addEventListener("mouseleave", function() {
+        area.style.backgroundColor = "white";
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+#navigation {
+    background-color: #eeeeee;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+}
+
+#navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#navigation > ul {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+#navigation li {
+    position: relative;
+}
+
+#navigation a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    padding: 8px 10px;
+    display: block;
+}
+
+#navigation a:hover {
+    background-color: #dddddd;
+}
+
+#navigation li ul {
+    margin-top: 5px;
+    padding-left: 0;
+}
+
+#navigation li ul li a {
+    font-size: 16px;
+    padding-left: 15px;
+}

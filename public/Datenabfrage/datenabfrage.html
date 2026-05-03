@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Produkte Abfragen</title>
+</head>
+<body>
+<script src="data.js"></script>
+<script>
+    "use strict";
+
+    //a) pretul maxim - returneaza produsul cu cel mai mare pret
+    function getMaxPreis(produkte){
+        let max = produkte[0];
+
+        for (const p of produkte) {
+            if (p.preis > max.preis){
+                max = p;
+            }
+        }
+
+        return max.name;
+    }
+
+    let maxPreis = getMaxPreis(data.produkte);
+    console.log(maxPreis);
+    //alert(maxPreis);
+
+    //b) pretul minim - returneaza numele produsului cu cel mai mic pret
+    function getMinPreisProdukt(produkte){
+        let min = produkte[0];
+
+        for (const p of produkte) {
+            if (p.preis < min.preis){
+                min = p;
+            }
+        }
+        return min;
+    }
+    let minPreis = getMinPreisProdukt(data.produkte);
+    console.log(minPreis);
+
+    //c) calculeaza suma tuturor produselor
+    function getPreisSum(produkte){
+        let sum = 0;
+
+        for (const p of produkte) {
+            sum += p.preis;
+        }
+
+        return sum;
+    }
+
+    let ProdSum = getPreisSum(data.produkte);
+    console.log(ProdSum);
+    //alert(ProdSum);
+
+    //d) Pretul tutoror produselor - anzahl * preis
+    function getGesamtWert(produkte){
+        let sum = 0;
+
+        for (const p of produkte) {
+            let wert = p.preis * p.anzahl
+            sum += wert;
+        }
+
+        return sum;
+    }
+
+    let gesamtWert = getGesamtWert(data.produkte);
+    console.log(gesamtWert);
+
+    //e) returneaza cate produse sunt in fiecare categorie
+    function getAnzahlProdukteOfKategorie(produkte, kategories, katName){
+        let total = 0;
+        let katId;
+        for (const k of kategories){
+            if (k.name === katName){
+                katId = k.id;
+            }
+        }
+        for (const p of produkte) {
+            if(p.kategorie === katId){
+                total += p.anzahl;
+            }
+        }
+
+        return total;
+
+    }
+
+    let anzahlProdukteOfSpielzeug = getAnzahlProdukteOfKategorie(data.produkte, data.kategorien, "Spielzeug");
+    let anzahlProdukteOfGarten = getAnzahlProdukteOfKategorie(data.produkte, data.kategorien, "Garten");
+    console.log("Spielzeug Anzahl: ", anzahlProdukteOfSpielzeug);
+    console.log("Garten Anzahl: ", anzahlProdukteOfGarten);
+
+
+
+</script>
+
+</body>
+</html>

@@ -2,6 +2,12 @@
     <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}">
     <button type="submit">Search</button>
 </form>
+<nav id="navigation"></nav>
+<h2>Warenkorb</h2>
+
+<div id="cart">
+    <p>Der Warenkorb ist leer.</p>
+</div>
 
 <table border="1">
     <tr>
@@ -10,6 +16,7 @@
         <th>Price</th>
         <th>Description</th>
         <th>Image</th>
+        <th>Aktion</th>
     </tr>
 
     @foreach($articles as $article)
@@ -32,6 +39,21 @@
                     No image
                 @endif
             </td>
+
+            <td>
+                <button
+                    class="add-to-cart"
+                    data-id="{{ $article->id }}"
+                    data-name="{{ $article->ab_name }}"
+                    data-price="{{ $article->ab_price }}">
+                    +
+                </button>
+            </td>
+
         </tr>
     @endforeach
 </table>
+
+<script src="/js/warenkorb.js" defer></script>
+<link rel="stylesheet" href="/css/navigationsmenu.css">
+<script src="/js/navigationsmenu.js" defer></script>

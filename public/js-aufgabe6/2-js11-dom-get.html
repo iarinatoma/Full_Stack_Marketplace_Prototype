@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom get</title>
+</head>
+<body>
+
+<h1 id="title">titlu vechi</h1>
+
+<p class="text">primu text</p>
+<p class="text">al doilea text</p>
+
+<input name="username" value="Ana">
+
+<div id="content">cuprins vechi</div>
+<script>
+    "use strict";
+
+    let classElements = document.getElementsByClassName("text");
+    classElements[0].innerText = "Schimbat text cu className";
+
+    let paragraphs = document.getElementsByTagName("p");
+    paragraphs[1].innerHTML = "<strong>schimbat text prin TagName</strong>";
+
+    let nameElements = document.getElementsByName("username");
+    nameElements[0].value = "Daniela";
+
+    let content = document.getElementById("content");
+    content.innerHTML = "<em>cuprins HTML nou </em>";
+
+    console.log("ID:", title);
+    console.log("ClassName:", classElements);
+    console.log("TagName:", paragraphs);
+    console.log("Name:", nameElements);
+</script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 #navigation {
-    background-color: #eeeeee;
+    background-color: #efb9ff;
     padding: 15px;
     font-family: Arial, sans-serif;
 }
@@ -22,14 +22,14 @@
 
 #navigation a {
     text-decoration: none;
-    color: black;
+    color: #5e006e;
     font-size: 18px;
     padding: 8px 10px;
     display: block;
 }
 
 #navigation a:hover {
-    background-color: #dddddd;
+    background-color: #df8fe8;
 }
 
 #navigation li ul {

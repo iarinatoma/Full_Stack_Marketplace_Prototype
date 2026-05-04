@@ -19,7 +19,7 @@ let ul = document.createElement("ul");
 for (let i = 0; i < meniu.length; i++) {
     let li = document.createElement("li");
 
-    // creem si link pentru ele ca sa duca undeva - nu doar text
+    // creem si link pentru ele ca sa duca undeva nu doar text
     let link = document.createElement("a");
     link.innerText = meniu[i];
 

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AbTestDataController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\NewArticleController;
 
 Route::get('/', function () {
     return view('navigation');
@@ -21,24 +22,6 @@ Route::get('/newarticle', function () {
     return view('newarticle');
 });
 
+Route::post('/articles', [NewArticleController::class, 'validate']);
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-Route::post('/articles', function (Request $request) {
-    $validated = $request->validate([
-        'name' => 'required',
-        'price' => 'required|numeric|min:0.01',
-        'description' => 'required',
-    ]);
-
-    DB::table('ab_article')->insert([
-        'ab_name' => $validated['name'],
-        'ab_price' => (int)($validated['price'] * 100),
-        'ab_description' => $validated['description'],
-        'ab_creator_id' => 1,
-        'ab_createdate' => now(),
-    ]);
-
-    return redirect('/articles');
-});

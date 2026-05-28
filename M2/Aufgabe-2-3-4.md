@@ -228,3 +228,4 @@ class Buyer extends User { ... }
 class Buyer : public User { ... };
 // direkte Klassenvererbung
 ```
+    

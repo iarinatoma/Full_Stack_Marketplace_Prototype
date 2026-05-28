@@ -1,62 +1,58 @@
 "use strict";
 
-let meniu = [
-    "Home",
-    "Kategorien",
-    "Verkaufen",
-    "Unternehmen"
-];
+let navigationsMeniu = {
 
-let subMeniu = [
-    "Philosophie",
-    "Karriere"
-];
+    //facute si astea ca obiecte sa fie mai usor la links
+    meniu: [
+        { text: "Home",        href: "/" },
+        { text: "Kategorien",  href: "/articles" },
+        { text: "Verkaufen",   href: "/newarticle" },
+        { text: "Unternehmen", href: "#" }
+    ],
+    subMeniu: [
+        { text: "Philosophie", href: "#" },
+        { text: "Karriere",    href: "#" }
+    ],
 
-let navigation = document.getElementById("navigation");
+    // functia care creaza efectiv meniul
+    init: function() {
+        this.container = document.getElementById("navigation");
+        this.createMenu();
+    },
 
-let ul = document.createElement("ul");
+    createLink: function(text, href) {
+        let link = document.createElement("a");
+        link.innerText = text;
+        link.href = href;
+        return link;
+    },
 
-for (let i = 0; i < meniu.length; i++) {
-    let li = document.createElement("li");
+    createMenu: function() {
+        let ul = document.createElement("ul");
 
-    // creem si link pentru ele ca sa duca undeva nu doar text
-    let link = document.createElement("a");
-    link.innerText = meniu[i];
+        for (let i = 0; i < this.meniu.length; i++) {
+            let li = document.createElement("li");
+            let link = this.createLink(this.meniu[i].text, this.meniu[i].href);
+            li.appendChild(link);
 
-    // aici punem linkurile
-    if (meniu[i] === "Home") {
-        link.href = "/";
-    } else if (meniu[i] === "Kategorien") {
-        link.href = "/articles";
-    } else if (meniu[i] === "Verkaufen") {
-        link.href = "/newarticle";
-    } else {
-        link.href = "#";
-    }
+            if (this.meniu[i].text === "Unternehmen") {
+                let subUl = document.createElement("ul");
 
+                for (let j = 0; j < this.subMeniu.length; j++) {
+                    let subLi = document.createElement("li");
+                    let subLink = this.createLink(this.subMeniu[j].text, this.subMeniu[j].href);
+                    subLi.appendChild(subLink);
+                    subUl.appendChild(subLi);
+                }
 
-    li.appendChild(link);
+                li.appendChild(subUl);
+            }
 
-    // submeniu
-    if (meniu[i] === "Unternehmen") {
-        let subUl = document.createElement("ul");
-
-        for (let j = 0; j < subMeniu.length; j++) {
-            let subLi = document.createElement("li");
-
-            let subLink = document.createElement("a");
-            subLink.innerText = subMeniu[j];
-            //daca vrem sa adaugam link si la astea putem mai tarziu sa folosim acceasi logica de mai sus
-            subLink.href = "#";
-
-            subLi.appendChild(subLink);
-            subUl.appendChild(subLi);
+            ul.appendChild(li);
         }
 
-        li.appendChild(subUl);
+        this.container.appendChild(ul);
     }
+};
 
-    ul.appendChild(li);
-}
-
-navigation.appendChild(ul);
+navigationsMeniu.init();

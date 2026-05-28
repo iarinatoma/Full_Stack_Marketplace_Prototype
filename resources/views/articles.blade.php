@@ -1,10 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Artikel</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="/css/navigationsmenu.css">
+</head>
+<body>
+
+<nav id="navigation"></nav>
+
 <form method="GET" action="/articles">
     <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}">
     <button type="submit">Search</button>
 </form>
-<nav id="navigation"></nav>
-<h2>Warenkorb</h2>
 
+<h2>Warenkorb</h2>
 <div id="cart">
     <p>Der Warenkorb ist leer.</p>
 </div>
@@ -49,11 +60,12 @@
                     +
                 </button>
             </td>
-
         </tr>
     @endforeach
 </table>
 
-<script src="/js/warenkorb.js" defer></script>
-<link rel="stylesheet" href="/css/navigationsmenu.css">
 <script src="/js/navigationsmenu.js" defer></script>
+<script src="/js/warenkorb.js" defer></script>
+
+</body>
+</html>

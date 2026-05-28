@@ -28,8 +28,7 @@ function ladeWarenkorb() {
                     id: item.article_id,
                     name: item.name,
                     price: item.price,
-                    cartId: item.ab_shoppingcart_id,
-                    button: null // butonul nu il stim inca
+                    cartId: item.ab_shoppingcart_id
                 });
             }
 
@@ -75,8 +74,7 @@ for (var i = 0; i < addButtons.length; i++) {
                     id: id,
                     name: name,
                     price: price,
-                    cartId: response.id,
-                    button: button
+                    cartId: response.id
                 });
 
                 button.disabled = true;
@@ -126,13 +124,19 @@ function showCart() {
                     // stergem din array local
                     for (var j = 0; j < cart.length; j++) {
                         if (cart[j].id == articleId) {
-                            if (cart[j].button) {
-                                cart[j].button.disabled = false;
-                            }
                             cart.splice(j, 1);
                             break;
                         }
                     }
+
+                    // re-activam butonul + din pagina dupa data-id
+                    var buttons = document.getElementsByClassName("add-to-cart");
+                    for (var k = 0; k < buttons.length; k++) {
+                        if (buttons[k].dataset.id == articleId) {
+                            buttons[k].disabled = false;
+                        }
+                    }
+
                     showCart();
                 }
             };

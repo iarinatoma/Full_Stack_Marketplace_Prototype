@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX Static</title>
+</head>
+<body>
+
+<h1>AJAX Beispiel</h1>
+<p id="nachricht">Lade...</p>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "message.json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var daten = JSON.parse(xhr.responseText);
+                document.getElementById("nachricht").innerText = daten.message;
+            } else {
+                console.error(xhr.statusText);
+            }
+        }
+    };
+
+    xhr.send();
+</script>
+
+</body>
+</html>

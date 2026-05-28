@@ -40,9 +40,31 @@ document.getElementById("buton").addEventListener("click", function () {
     }
 
     if (pret <= 0) {
-        eroare.innerText = "Price muss großer als 0 sein.";
+        eroare.innerText = "Price muss größer als 0 sein.";
         return;
     }
 
-    document.getElementById("article-form").submit();
+    // in loc de submit() - trimitem prin ajax
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/articles");
+
+    var token = document.querySelector('meta[name="csrf-token"]').content;
+    xhr.setRequestHeader("X-CSRF-TOKEN", token);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                document.getElementById("eroare").innerText = xhr.responseText;
+            } else {
+                document.getElementById("eroare").innerText = "Fehler: " + xhr.statusText;
+            }
+        }
+    };
+
+    var formData = new FormData();
+    formData.append("name", nume);
+    formData.append("price", pret);
+    formData.append("description", document.getElementById("introdDescriere").value);
+
+    xhr.send(formData);
 });

@@ -23,17 +23,5 @@ Route::get('/newarticle', function () {
     return view('newarticle');
 });
 
-// artikelsuche -> http://localhost:8000/api/articles?search=Iphone
-Route::get('/api/articles', [NewArticleController::class, 'search_api']);
-Route::post('/api/articles', [NewArticleController::class, 'store_api']);
 
 Route::post('/articles', [NewArticleController::class, 'validate']);
-
-// cerinta b - adauga articol in cos
-Route::post('/api/shoppingcart', [ShoppingcartController::class, 'store_api']);
-
-// cerinta c - sterge articol din cos
-Route::delete('/api/shoppingcart/{shoppingcartid}/articles/{articleId}', [ShoppingcartController::class, 'destroy_api']);
-
-// cerinta d - incarca cosul la reload
-Route::get('/api/shoppingcart', [ShoppingcartController::class, 'index_api']);

@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ArticleAPIController;
+use App\Http\Controllers\Api\ShoppingcartAPIController;
+
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+// M3 Aufgabe 8 - Artikelsuche
+Route::get('/articles', [ArticleAPIController::class, 'search']);
+
+// M3 Aufgabe 9 - Artikel anlegen
+Route::post('/articles', [ArticleAPIController::class, 'store']);
+
+// M3 Aufgabe 10 - Artikel loschen
+Route::delete('/articles/{id}', [ArticleAPIController::class, 'destroy']);
+
+// M3 Aufgabe 11 - Warenkorb
+Route::get('/shoppingcart', [ShoppingcartAPIController::class, 'index']);
+Route::post('/shoppingcart', [ShoppingcartAPIController::class, 'store']);
+Route::delete('/shoppingcart/{shoppingcartid}/articles/{articleId}', [ShoppingcartAPIController::class, 'destroy']);

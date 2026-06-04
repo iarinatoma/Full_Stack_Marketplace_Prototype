@@ -5,10 +5,14 @@
     <title>Artikel</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/css/navigationsmenu.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
 <nav id="navigation"></nav>
+
+<h2>Dynamische Artikelsuche (Vue)</h2>
+<div id="vue-search"></div>
 
 <form method="GET" action="/articles">
     <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}">
@@ -29,7 +33,6 @@
         <th>Image</th>
         <th>Aktion</th>
     </tr>
-
     @foreach($articles as $article)
         <tr>
             <td>{{ $article->id }}</td>
@@ -41,7 +44,6 @@
                     $png = "images/{$article->id}.png";
                     $jpg = "images/{$article->id}.jpg";
                 @endphp
-
                 @if(file_exists(public_path($png)))
                     <img src="/{{ $png }}" width="100">
                 @elseif(file_exists(public_path($jpg)))
@@ -50,7 +52,6 @@
                     No image
                 @endif
             </td>
-
             <td>
                 <button
                     class="add-to-cart"
@@ -63,9 +64,6 @@
         </tr>
     @endforeach
 </table>
-
-<script src="/js/navigationsmenu.js" defer></script>
-<script src="/js/warenkorb.js" defer></script>
 
 </body>
 </html>

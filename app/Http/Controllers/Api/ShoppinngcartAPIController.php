@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ShoppingcartController extends Controller
+class ShoppingcartAPIController extends Controller
 {
-    // cerinta d - incarca cosul din baza de date
-    public function index_api(Request $request) {
-        // folosim creator_id fix 1 - nu avem autentificare
+    // GET /api/shoppingcart
+    public function index(Request $request)
+    {
         $items = DB::table('ab_shoppingcart_item')
             ->join('ab_shoppingcart', 'ab_shoppingcart_item.ab_shoppingcart_id', '=', 'ab_shoppingcart.id')
             ->join('ab_article', 'ab_shoppingcart_item.ab_article_id', '=', 'ab_article.id')
@@ -26,22 +27,21 @@ class ShoppingcartController extends Controller
         return response()->json($items);
     }
 
-    // cerinta b - adauga articol in cos
-    public function store_api(Request $request) {
+    // POST /api/shoppingcart
+    public function store(Request $request)
+    {
         $articleId = $request->input('articleid');
 
         if (empty($articleId)) {
             return response()->json(['error' => 'articleid fehlt.'], 422);
         }
 
-        // verificam daca articolul exista
         $article = DB::table('ab_article')->where('id', $articleId)->first();
 
         if (!$article) {
             return response()->json(['error' => 'Artikel nicht gefunden.'], 404);
         }
 
-        // cautam cosul existent al userului sau cream unul nou
         $cart = DB::table('ab_shoppingcart')
             ->where('ab_creator_id', 1)
             ->first();
@@ -55,7 +55,6 @@ class ShoppingcartController extends Controller
             $cartId = $cart->id;
         }
 
-        // verificam daca articolul e deja in cos
         $alreadyIn = DB::table('ab_shoppingcart_item')
             ->where('ab_shoppingcart_id', $cartId)
             ->where('ab_article_id', $articleId)
@@ -65,7 +64,6 @@ class ShoppingcartController extends Controller
             return response()->json(['error' => 'Artikel bereits im Warenkorb.'], 422);
         }
 
-        // adaugam articolul in cos
         $itemId = DB::table('ab_shoppingcart_item')->insertGetId([
             'ab_shoppingcart_id' => $cartId,
             'ab_article_id'      => $articleId,
@@ -75,8 +73,9 @@ class ShoppingcartController extends Controller
         return response()->json(['id' => $itemId], 200);
     }
 
-    // cerinta c - sterge articol din cos
-    public function destroy_api(Request $request, $shoppingcartid, $articleId) {
+    // DELETE /api/shoppingcart/{shoppingcartid}/articles/{articleId}
+    public function destroy(Request $request, $shoppingcartid, $articleId)
+    {
         DB::table('ab_shoppingcart_item')
             ->where('ab_shoppingcart_id', $shoppingcartid)
             ->where('ab_article_id', $articleId)

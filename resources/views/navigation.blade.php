@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Abalo</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/css/navigationsmenu.css">
-    <script src="/js/navigationsmenu.js" defer></script>
-    <script src="/js/cookiecheck.js" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
 
-<nav id="navigation"></nav>
 
+<nav id="navigation"></nav>
+<div id="vue-test"></div>
 
 </body>
 </html>

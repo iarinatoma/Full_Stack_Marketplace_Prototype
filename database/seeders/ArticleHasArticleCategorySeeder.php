@@ -11,7 +11,7 @@ class ArticleHasArticleCategorySeeder extends Seeder
     {
         $file = fopen(database_path('data/article_has_articlecategory.csv'), 'r');
 
-        // Sarim prima linie (header)
+        // Sarim prima linie
         fgetcsv($file, 0, ';');
 
         while (($row = fgetcsv($file, 0, ';')) !== false) {
@@ -24,3 +24,5 @@ class ArticleHasArticleCategorySeeder extends Seeder
         fclose($file);
     }
 }
+
+//php artisan db:seed --class=ArticleHasArticleCategorySeeder

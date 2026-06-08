@@ -22,20 +22,6 @@
 
     * Mit Ctrl+Click kann man direkt zwischen importierten Vue-Komponenten navigieren. Das spart Zeit, besonders wenn das Projekt viele Dateien hat.
 
-### Vorteile des Prettier Plugin
-
-1. **Automatische Codeformatierung beim Speichern**
-
-    * Der Code wird automatisch formatiert, wenn man die Datei speichert. Das spart Zeit, da man sich nicht manuell um Einrückungen und Abstände kümmern muss.
-
-2. **Einheitlicher Codestil im gesamten Projekt**
-
-    * Prettier sorgt dafür, dass der gesamte Code in JavaScript-, Vue- und CSS-Dateien einheitlich formatiert ist. Das verbessert die Lesbarkeit und die Qualität des Codes erheblich.
-
-3. **Weniger Fehler durch sauberen Code**
-
-    * Durch die automatische Formatierung werden viele kleine Fehler, zum Beispiel falsche Einrückungen oder uneinheitliche Schreibweisen, vermieden. Dadurch wird auch die Fehlersuche erleichtert.
-
 
 
 ## Aufgabe 12 – Diskussion: Dynamische Artikelsuche
@@ -76,6 +62,7 @@ Die Daten werden über den Webservice unter `POST /api/articles` gesendet.
 
 - **`methods`** – `speichern()` validiert die Eingaben und sendet die Daten an die API.
 
+---
 
 
 # M4 – Zusammenfassung

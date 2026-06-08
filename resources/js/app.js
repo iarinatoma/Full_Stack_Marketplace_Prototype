@@ -1,6 +1,6 @@
 "use strict";
 
-import { round } from 'mathjs';
+import { round, sum } from 'mathjs';
 import { createApp, h } from 'vue';
 
 // navigatie
@@ -169,6 +169,7 @@ window.initWarenkorb = function() {
 
     function showCart() {
         cartContainer.innerHTML = "";
+
         if (cart.length === 0) {
             var emptyText = document.createElement("p");
             emptyText.innerText = "Der Warenkorb ist leer.";
@@ -183,7 +184,7 @@ window.initWarenkorb = function() {
             var li = document.createElement("li");
 
 
-            // Aufgabe 3 - math.js aici am implementat
+            // math.js aici am implementat
             var priceInEuro = round(article.price / 100, 2);
 
             li.innerText = article.name + " - €" + priceInEuro + " ";
@@ -223,10 +224,17 @@ window.initWarenkorb = function() {
             ul.appendChild(li);
         }
 
+        // folosit math pentru totalul cosului
+        let total = sum(cart.map(a => a.price));
+        let totalParagraph = document.createElement("p");
+        totalParagraph.innerText = "Gesamt: €" + round(total / 100, 2);
+        cartContainer.appendChild(totalParagraph);
+
         cartContainer.appendChild(ul);
     }
 
     ladeWarenkorb();
+
 };
 
 // aici se incarca efectiv toate
@@ -245,8 +253,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // aici testam verbindung cu vue
     if (document.getElementById('vue-test')) {
         createApp({
-            data() { return { mesaj: 'Vue funktioniert!' }; },
-            render() { return h('p', this.mesaj); }
+            data() {
+                return {
+                    mesaj: 'Vue funktioniert!'
+                };
+            }
         }).mount('#vue-test');
     }
 
@@ -285,29 +296,34 @@ document.addEventListener('DOMContentLoaded', function() {
                     };
 
                     xhr.send();
+                },
+
+                // folosim math.js, functia de roud transformam din cent in euro
+                formatPreis(price) {
+                    return round(price / 100, 2);
                 }
             },
-            render() {
-                return h('div', [
-                    h('input', {
-                        type: 'text',
-                        placeholder: 'Artikel suchen (min. 3 Zeichen)...',
-                        value: this.suchbegriff,
-                        onInput: (e) => { this.suchbegriff = e.target.value; },
-                        style: 'padding:8px;width:300px;margin-bottom:10px;'
-                    }),
 
-                    this.laden ? h('p', 'Suche...') : null,
-                    this.artikel.length > 0
-                        ? h('ul', this.artikel.map(a =>
-                            h('li', `${a.ab_name} - ${round(a.ab_price / 100, 2)}€`)
-                        ))
-                        : null,
-                    this.suchbegriff.length >= 3 && this.artikel.length === 0 && !this.laden
-                        ? h('p', 'Keine Artikel gefunden.')
-                        : null
-                ]);
-            }
+            template: `
+                <div>
+                    <input
+                        type="text"
+                        v-model="suchbegriff"
+                        placeholder="Artikel suchen (min. 3 Zeichen)...">
+
+                    <p v-if="laden">Suche...</p>
+
+                    <ul v-if="artikel.length > 0">
+                        <li v-for="item in artikel">
+                            {{ item.ab_name }} - {{ formatPreis(item.ab_price) }}€
+                        </li>
+                    </ul>
+
+                    <p v-if="suchbegriff.length >= 3 && artikel.length === 0 && !laden">
+                        Keine Artikel gefunden.
+                    </p>
+                </div>
+            `
         }).mount('#vue-search');
     }
 
@@ -324,6 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     erfolg: ''
                 };
             },
+
             methods: {
                 speichern() {
                     this.fehler = '';
@@ -334,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         return;
                     }
 
-                    if (this.price <= 0 || this.price === '') {
+                    if (this.price === '' || Number(this.price) <= 0) {
                         this.fehler = 'Price muss größer als 0 sein.';
                         return;
                     }
@@ -369,18 +386,22 @@ document.addEventListener('DOMContentLoaded', function() {
             },
 
             template: `
-            <div>
-                <div v-if="fehler" style="color:red;margin-bottom:10px;">{{ fehler }}</div>
-                <div v-if="erfolg" style="color:green;margin-bottom:10px;">{{ erfolg }}</div>
-                <label>Name:</label><br>
-                <input type="text" v-model="name" style="margin-bottom:10px;"><br>
-                <label>Price (in Cent):</label><br>
-                <input type="number" v-model="price" style="margin-bottom:10px;"><br>
-                <label>Description:</label><br>
-                <textarea v-model="description" style="margin-bottom:10px;"></textarea><br>
-                <button @click="speichern">Speichern</button>
-            </div>
-        `
+                <div>
+                    <div v-if="fehler" style="color:red;">{{ fehler }}</div>
+                    <div v-if="erfolg" style="color:green;">{{ erfolg }}</div>
+
+                    <label>Name:</label><br>
+                    <input type="text" v-model="name"><br>
+
+                    <label>Price (in Cent):</label><br>
+                    <input type="number" v-model="price"><br>
+
+                    <label>Description:</label><br>
+                    <textarea v-model="description"></textarea><br>
+
+                    <button @click="speichern">Speichern</button>
+                </div>
+            `
         }).mount('#vue-artikel-form');
     }
 

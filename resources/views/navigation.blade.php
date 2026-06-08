@@ -11,7 +11,8 @@
 
 
 <nav id="navigation"></nav>
-<div id="vue-test"></div>
-
+<div id="vue-test">
+    <p>@{{ mesaj }}</p>
+</div>
 </body>
 </html>

@@ -23,3 +23,27 @@ Route::delete('/articles/{id}', [ArticleAPIController::class, 'destroy']);
 Route::get('/shoppingcart', [ShoppingcartAPIController::class, 'index']);
 Route::post('/shoppingcart', [ShoppingcartAPIController::class, 'store']);
 Route::delete('/shoppingcart/{shoppingcartid}/articles/{articleId}', [ShoppingcartAPIController::class, 'destroy']);
+
+Route::post('/articles/{id}/sold', function ($id) {
+    $article = \Illuminate\Support\Facades\DB::table('ab_article')->where('id', $id)->first();
+
+    if (!$article) {
+        return response()->json(['error' => 'Artikel nicht gefunden.'], 404);
+    }
+
+    event(new \App\Events\VerkaufsEvent($article->ab_name));
+
+    return response()->json(['message' => 'Verkaufsmeldung gesendet!']);
+});
+
+Route::post('/articles/{id}/angebot', function ($id) {
+    $article = \Illuminate\Support\Facades\DB::table('ab_article')->where('id', $id)->first();
+
+    if (!$article) {
+        return response()->json(['error' => 'Artikel nicht gefunden.'], 404);
+    }
+
+    event(new \App\Events\AngebotEvent($article->ab_name, $article->id));
+
+    return response()->json(['message' => 'Angebot gesendet!']);
+});

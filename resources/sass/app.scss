@@ -1,0 +1,147 @@
+// Feature 1: Variables
+$primary-color: #efb9ff;
+$text-color: #333;
+$border-color: #ccc;
+$padding: 15px;
+
+// Feature 2: Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+// Feature 3: Extend
+%button-base {
+    cursor: pointer;
+    border: 1px solid $border-color;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+// BEM + Feature 4: Nesting
+
+// BLOCK: menu
+.menu {
+    background-color: $primary-color;
+    padding: $padding;
+
+    // ELEMENT: menu__item
+    &__item {
+        display: inline-block;
+        margin-right: 20px;
+        color: $text-color;
+        text-decoration: none;
+
+        // MODIFIER: menu__item--active
+        &--active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+
+    // ELEMENT: menu__submenu
+    &__submenu {
+        display: none;
+        position: absolute;
+        background-color: $primary-color;
+        padding: 10px;
+
+        // MODIFIER: menu__submenu--visible
+        &--visible {
+            display: block;
+        }
+    }
+}
+
+// BLOCK: search
+.search {
+    padding: 20px;
+
+    // ELEMENT: search__input
+    &__input {
+        width: 300px;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+    }
+
+    // ELEMENT: search__results
+    &__results {
+        list-style: none;
+        padding: 0;
+    }
+
+    // ELEMENT: search__item
+    &__item {
+        @include flex-center;
+        padding: 8px 0;
+        border-bottom: 1px solid $border-color;
+
+        // MODIFIER: search__item--in-cart
+        &--in-cart {
+            opacity: 0.5;
+        }
+    }
+}
+
+// BLOCK: cart
+.cart {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid $border-color;
+
+    // ELEMENT: cart__item
+    &__item {
+        @include flex-center;
+        padding: 5px 0;
+    }
+
+    // ELEMENT: cart__total
+    &__total {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+}
+
+// BLOCK: artikel-form
+.artikel-form {
+    padding: 20px;
+
+    // ELEMENT: artikel-form__input
+    &__input {
+        @extend %button-base;
+        width: 300px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    // ELEMENT: artikel-form__button
+    &__button {
+        @extend %button-base;
+        background-color: $primary-color;
+
+        // MODIFIER: artikel-form__button--disabled
+        &--disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}
+
+// Feature 5: Function
+@function lighten-color($color, $amount) {
+    @return mix(white, $color, $amount);
+}
+
+.pagination {
+    @include flex-center;
+    margin: 10px 0;
+
+    button {
+        @extend %button-base;
+        background-color: lighten-color($primary-color, 20%);
+    }
+}

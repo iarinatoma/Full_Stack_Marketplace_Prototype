@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WS1 - Connect</title>
+</head>
+<body>
+<h1>WebSocket Connect Test</h1>
+<script>
+    // Conectare la Reverb pe portul 8080
+    let socket = new WebSocket('ws://localhost:8080/app/local');
+
+    socket.onopen = function(event) {
+        console.log('Connected');
+    };
+
+    socket.onclose = function(event) {
+        console.log('Connection closed: code=' + event.code);
+    };
+
+    socket.onerror = function(event) {
+        console.error('WebSocket error');
+    };
+</script>
+</body>
+</html>

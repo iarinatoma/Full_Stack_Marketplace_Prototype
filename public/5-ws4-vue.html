@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WS4 - Vue</title>
+</head>
+<body>
+<h1>WebSocket Vue Test</h1>
+
+<div id="app">
+    <p v-if="message">{{ message }}</p>
+    <p v-else>Warte auf Nachricht...</p>
+</div>
+
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const { createApp } = Vue;
+
+    const app = createApp({
+        data() {
+            return {
+                message: null
+            };
+        },
+        mounted() {
+            var pusher = new Pusher('o0moyvc1ek5cdve622f9', {
+                wsHost: '127.0.0.1',
+                wsPort: 8080,
+                forceTLS: false,
+                enabledTransports: ['ws'],
+                cluster: 'mt1'
+            });
+
+            var channel = pusher.subscribe('test-channel');
+
+            channel.bind('test-event', (data) => {
+                this.message = data.message;
+            });
+        }
+    });
+
+    app.mount('#app');
+</script>
+</body>
+</html>

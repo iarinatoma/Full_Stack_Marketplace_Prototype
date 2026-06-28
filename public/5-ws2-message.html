@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WS2 - Message</title>
+</head>
+<body>
+<h1>WebSocket Message Test</h1>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script>
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('o0moyvc1ek5cdve622f9', {
+        wsHost: '127.0.0.1',
+        wsPort: 8080,
+        forceTLS: false,
+        enabledTransports: ['ws'],
+        cluster: 'mt1'
+    });
+
+    var channel = pusher.subscribe('test-channel');
+
+    channel.bind('test-event', function(data) {
+        console.log('Message received: ' + data.message);
+    });
+</script>
+</body>
+</html>

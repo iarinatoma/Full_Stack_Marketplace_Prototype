@@ -186,6 +186,8 @@ window.initWarenkorb = function() {
 
             // math.js aici am implementat
             var priceInEuro = round(article.price / 100, 2);
+            // Prețul e stocat în Cent în baza de date.
+            // round(x / 100, 2) îl convertește în Euro rotunjit la 2 zecimale.
 
             li.innerText = article.name + " - €" + priceInEuro + " ";
 
@@ -225,6 +227,7 @@ window.initWarenkorb = function() {
         }
 
         // folosit math pentru totalul cosului
+        // sum() calculează suma tuturor prețurilor din coș. round() rotunjește totalul la 2 zecimale.
         let total = sum(cart.map(a => a.price));
         let totalParagraph = document.createElement("p");
         totalParagraph.innerText = "Gesamt: €" + round(total / 100, 2);
@@ -251,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // aici testam verbindung cu vue
+    // vue se initializeaza cu createApp si se monteaza pe un element html
     if (document.getElementById('vue-test')) {
         createApp({
             data() {
@@ -268,34 +272,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 return {
                     suchbegriff: '',
                     artikel: [],
-                    laden: false
+                    laden: false // cat timp asteapta raspuns
                 };
             },
 
-            watch: {
+            watch: { //watch în Vue monitorizează o variabilă și execută o funcție când aceasta se schimbă.
                 suchbegriff(neuerWert) {
-                    if (neuerWert.length >= 3) {
+                    if (neuerWert.length >= 3) { // la 3 caractere
                         this.sucheArtikel(neuerWert);
                     } else {
-                        this.artikel = [];
+                        this.artikel = []; // goleste rezultatele daca cautarea e <3
                     }
                 }
             },
 
-            methods: {
+            methods: { // functii care raspund la evenimente se pun in methods
                 sucheArtikel(query) {
-                    this.laden = true;
+                    this.laden = true; // "Search..."
+
+                    // Creăm o cerere AJAX de tip GET către API.
+                    // encodeURIComponent transformă caracterele speciale din query
+                    //      — de exemplu spațiul devine %20 — ca URL-ul să fie valid.
                     var xhr = new XMLHttpRequest();
                     xhr.open("GET", "/api/articles?search=" + encodeURIComponent(query));
 
                     xhr.onreadystatechange = () => {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            this.artikel = JSON.parse(xhr.responseText).slice(0, 5);
-                            this.laden = false;
+                        if (xhr.readyState === 4 && xhr.status === 200) { // daca cererea s a temrinat si srveru a raspuns cu success
+                            // trasbnforma din text in array java script. cu rezultate
+                            // si pentru ca am this.article vue acyulaizeaza automat lista pe ecran
+                            this.artikel = JSON.parse(xhr.responseText).slice(0, 5); // maxim 5 rezultate
+                            this.laden = false; // dispare Search...
                         }
                     };
 
-                    xhr.send();
+                    xhr.send();// trimite cererea
                 },
 
                 // folosim math.js, functia de roud transformam din cent in euro
@@ -328,6 +338,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // new article cu vue
+    /*
+     Directive = atribute speciale HTML care încep cu v-:
+
+    v-model — leagă un input de o variabilă (two-way binding)
+    v-if / v-else — afișează/ascunde elemente condiționat
+    v-for — iterează peste un array și generează HTML
+    v-bind / :attr — leagă un atribut HTML de o variabilă Vue
+    v-on / @event — ascultă evenimente (click, input, etc.)
+    v-html — afișează HTML nemascat (atenție la XSS)
+
+    * */
     // Vue Features: v-model, v-if, @click, data(), methods()
     if (document.getElementById('vue-artikel-form')) {
         createApp({
@@ -363,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelector('meta[name="csrf-token"]').content);
 
                     xhr.onreadystatechange = () => {
-                        if (xhr.readyState === 4) {
+                        if (xhr.readyState === 4) { // daca cererea s-a terminat
                             if (xhr.status === 200) {
                                 var response = JSON.parse(xhr.responseText);
                                 this.erfolg = 'Artikel erfolgreich gespeichert! ID: ' + response.id;

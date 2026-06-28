@@ -25,3 +25,38 @@ Route::get('/newarticle', function () {
 
 
 Route::post('/articles', [NewArticleController::class, 'validate']);
+
+Route::get('/newsite', function () {
+    return view('newsite');
+});
+
+Route::get('/send-test', function () {
+    event(new \App\Events\TestEvent('Hallo von Abalo!'));
+    return 'Message sent!';
+});
+
+Route::get('/send-ws2', function () {
+    event(new \App\Events\TestEvent('Hallo von Abalo!'));
+    return 'Message sent!';
+});
+
+Route::get('/send-ws3', function () {
+    event(new \App\Events\SelectedMessageEvent('Hallo an ID 42!', 42));
+    return 'sent!';
+});
+
+Route::get('/send-ws4', function () {
+    event(new \App\Events\TestEvent('Hallo von Vue!'));
+    return 'sent!';
+});
+
+Route::get('/send-wartung', function () {
+    event(new \App\Events\WartungsEvent());
+    return 'Wartungsnachricht gesendet!';
+});
+
+Route::get('/send-verkauf/{id}', function ($id) {
+    $article = \Illuminate\Support\Facades\DB::table('ab_article')->where('id', $id)->first();
+    event(new \App\Events\VerkaufsEvent($article->ab_name));
+    return 'Verkaufsmeldung gesendet!';
+});

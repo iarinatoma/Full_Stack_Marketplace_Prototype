@@ -8,16 +8,37 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleAPIController extends Controller
 {
-    // M3 Aufgabe 8 - GET /api/articles?search=
     public function search(Request $request)
     {
         $search = $request->input('search', '');
+        $page = $request->input('page', 1);  // ce pagina vrea userul (default 1)
+        $perPage = 5; // 5 articole pe pagina
+        $offset = ($page - 1) * $perPage; // pagina 1 → offset 0, pagina 2 → offset 5
 
-        $articles = DB::table('ab_article')
-            ->whereRaw('LOWER(ab_name) LIKE ?', ['%' . strtolower($search) . '%'])
+        $query = DB::table('ab_article')
+            ->whereRaw('LOWER(ab_name) LIKE ?', ['%' . strtolower($search) . '%']);
+
+        $total = $query->count();
+        $totalPages = ceil($total / $perPage);
+
+        $articles = $query
+            ->limit($perPage) // LIMIT 5 — ia doar 5 articole
+            ->offset($offset) // OFFSET 0/5/10 — de unde sa inceapa
             ->get();
 
-        return response()->json($articles);
+        // daca vine request cu page, returnam format nou cu paginare
+        // daca nu, returnam array simplu ca inainte - compatibil cu M3/M4
+        if ($request->has('page')) {
+            return response()->json([ // format nou cu paginare
+                'data' => $articles,
+                'total' => $total,
+                'page' => $page,
+                'perPage' => $perPage,
+                'totalPages' => $totalPages
+            ]);
+        }
+
+        return response()->json($articles); // format vechi — compatibil M3/M4
     }
 
     // M3 Aufgabe 9 - POST /api/articles

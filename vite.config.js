@@ -3,10 +3,14 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
-    //aici spune ce fisiere sa proceseze Vite
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.css',
+                'resources/sass/app.scss',
+                'resources/js/app.js',
+                'resources/js/newsite.js'
+            ],
             refresh: true,
         }),
         vue(),

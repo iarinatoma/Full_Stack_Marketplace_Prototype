@@ -31,7 +31,7 @@ export default {
         Impressum,
         ArtikelSuche
     },
-    data() {
+    data() { // functie care returneaza variabilele componentei
         return {
             showImpressum: false
         }
